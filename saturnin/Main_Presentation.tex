@@ -1,0 +1,97 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% IISER Thiruvananthapuram Beamer Presentation Template
+% Author: Nikhil Alex Verghese, BS-MS '17
+%
+% Licensed under Creative Commons Attribution–NonCommercial–ShareAlike 4.0
+% (CC BY-NC-SA 4.0). More info: https://creativecommons.org/licenses/by-nc-sa/4.0/
+%
+% Suggestions/Feedback: nikhil.alexv17@alumni.iisertvm.ac.in
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+
+% Comments like this begin with a % character. 
+% Ctrl+b for \textbf{bold} and Ctrl+i for \textit{italics} 
+% Ctrl+/ to comment out lines
+
+% Refer to these links for useful beamer tips and tricks
+% http://tug.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf
+% https://www.overleaf.com/learn/latex/Beamer
+% https://en.wikipedia.org/wiki/Beamer_%28LaTeX%29 --> `External Links'
+
+%=========================================================================================
+% PREAMBLE (PACKAGES AND DOCUMENT CONFIGURATION)
+%=========================================================================================
+\documentclass[10pt,presentation,shownotes,aspectratio=169]{beamer}
+% Add in 'draft' to parameters above to halt graphics and TikZ and decrease compile time
+
+% Load configuration files
+\input{Configuration/Preamble}     % Packages, custom frame and block styles
+\input{Configuration/MathLetters}  % Math symbols and alphabet macros
+\input{Configuration/Colours}      % Color definitions
+
+%=========================================================================================
+% INTRODUCTORY PAGES
+%=========================================================================================
+% Custom input fields are marked with [] in the intro sections. 
+% Rewrite inputs according to capitalisation within brackets (First Letter Capital/ALL UPPERCASE/all small letters). 
+% Go through each intro page and update all of your personal information accordingly. 
+% Read all uncommented lines carefully.
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+
+% \title[\color{white} LWC
+% \hspace{0.3cm}\insertframenumber/\inserttotalframenumber]{\LARGE Mischief in the Cube: A Study of the Saturnin}
+% \author[Kriti Arora, 12240880]{Kriti Arora [4pt] 12240880}
+% \institute[IIT Bhilai]{IIT Bhilai}
+
+\title{Mischief in the Cube: A Study of the Saturnin}
+\author[Kriti Arora, 12240880]{Kriti Arora 12240880}
+\institute[IIT Bhilai]{IIT Bhilai}
+
+
+% \title[\color{white} Short Pres. Title
+% \hspace{0.3cm}\insertframenumber/\inserttotalframenumber]{\LARGE [Extended Presentation Title]}
+
+% \author[Short Name, Roll No.]{\texorpdfstring{{\LARGE [Full Name]}\\[7pt] {[Roll Number]}}{}}
+% \institute[So\_, IISER TVM]{{\large School of [Department],}\\ Indian Institute of Science Education and Research\\Thiruvananthapuram}
+
+% Uncomment the following lines in place of the two commands above in case of more than one author.
+
+%\author[1st Author \textit{et al.}]{\Large [First Author\inst{1} \and Second Author\inst{2}]}
+%\institute[So\_, IISER TVM]{{large \inst{1} School of [Department],}\\ Indian Institute of Science Education and Research\\Thiruvananthapuram \and \inst{2} Collaboration University}
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% DOCUMENT START
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+\begin{document}
+\setlength{\belowcaptionskip}{10pt plus 2pt minus 4pt}
+
+% {
+% \setbeamertemplate{background}
+% {\includegraphics[width=\paperwidth,height=\paperheight]{Images/IISER_Campus_BG.png}}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+% }
+
+
+% Sections
+\input{Sections/Introduction}
+\input{Sections/Saturnin}
+\input{Sections/implementation}
+\input{Sections/impossible_differential.tex}
+\input{Sections/Summing Up}
+
+
+% % References
+% \begin{frame}[allowframebreaks]
+%     \frametitle{References}
+%     \nocite{*}
+%     \printbibliography
+% \end{frame}
+
+% % Appendix
+% \appendix
+% \input{Sections/6_Appendix}
+
+\end{document}

@@ -1,0 +1,70 @@
+
+\section{Implementation}
+
+\begin{frame}{State Representation}
+    \begin{itemize}
+        \item State = 256 bits, represented as 16 words of 16 bits.
+        \item Arranged as a $4 \times 4$ matrix:
+        \[
+        \begin{bmatrix}
+        x_0 & x_1 & x_2 & x_3 \\
+        x_4 & x_5 & x_6 & x_7 \\
+        x_8 & x_9 & x_{10} & x_{11} \\
+        x_{12} & x_{13} & x_{14} & x_{15}
+        \end{bmatrix}
+        \]
+        \item Round functions operate on this structure.
+    \end{itemize}
+    \end{frame}
+
+        \begin{frame}[fragile]{ShiftRow}
+            \begin{itemize}
+                \item Alternate between two permutations:
+                \begin{itemize}
+                    \item \textbf{ShiftRowSheet (even rounds)}
+                    \item \textbf{ShiftRowSlice (odd rounds)}
+                \end{itemize}
+            \end{itemize}
+            \begin{verbatim}
+            rotate_left(&s[4], 1);
+            rotate_left(&s[8], 2);
+            rotate_left(&s[12], 3);
+            \end{verbatim}
+            \end{frame}
+
+\begin{frame}{MDS Diffusion Layer}
+    \begin{itemize}
+        \item State split into 4 groups: A, B, C, D.
+        \item Operation sequence:
+        \begin{enumerate}
+            \item $C \gets C \oplus D$
+            \item $A \gets A \oplus B$
+            \item Apply MUL rotation on $B$ and $D$.
+            \item Cross XOR again: $B \gets B \oplus C$, $D \gets D \oplus A$.
+            \item Apply MUL twice on $A$ and $C$.
+        \end{enumerate}
+        \item Guarantees \textbf{maximum diffusion} (MDS property).
+    \end{itemize}
+    \end{frame}
+            
+
+    \begin{frame}[fragile]{Round Constants}
+        \begin{itemize}
+            \item Two constants RC0, RC1 added each round.
+            \item Generated using an 8-bit LFSR.
+            \item Breaks symmetry and prevents slide attacks.
+        \end{itemize}
+        
+        \begin{verbatim}
+        
+        static uint8_t lfsr(uint8_t x) {
+            return (x << 1) ^ (0x1B & -(x >> 7));
+        }
+        
+        // each round
+        RC0 = lfsr(RC0);
+        RC1 = lfsr(RC1);
+        state[0] ^= RC0;
+        state[4] ^= RC1;
+    \end{verbatim}
+        \end{frame}

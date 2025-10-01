@@ -1,0 +1,19 @@
+\frametitle{Round Constants}
+\begin{itemize}
+            \item Two constants RC0, RC1 added each round.
+            \item Generated using an 8-bit LFSR.
+            \item Breaks symmetry and prevents slide attacks.
+        \end{itemize}
+
+        \begin{verbatim}
+
+        static uint8_t lfsr(uint8_t x) {
+            return (x << 1) ^ (0x1B & -(x >> 7));
+        }
+
+        // each round
+        RC0 = lfsr(RC0);
+        RC1 = lfsr(RC1);
+        state[0] ^= RC0;
+        state[4] ^= RC1;
+    \end{verbatim}

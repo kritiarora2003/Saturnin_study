@@ -1,0 +1,12 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Introduction to Saturnin}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Saturnin Basics}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Post Quantum Motivation}{4}{0}{1}
+\beamer@subsectionintoc {1}{3}{Why the name Saturnin?}{5}{0}{1}
+\beamer@sectionintoc {2}{Saturnin}{6}{0}{2}
+\beamer@subsectionintoc {2}{1}{Saturnin State structure}{7}{0}{2}
+\beamer@subsectionintoc {2}{2}{One round of Saturnin}{9}{0}{2}
+\beamer@sectionintoc {3}{Security}{15}{0}{3}
+\beamer@sectionintoc {4}{Implementation}{17}{0}{4}
+\beamer@sectionintoc {5}{Impossible Differential Trail on Saturnin}{22}{0}{5}
+\beamer@sectionintoc {6}{Summing Up}{26}{0}{6}

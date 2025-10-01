@@ -1,0 +1,26 @@
+% The appendix tex file gets inputted after the /appendix command in the main tex file.
+% Treat your appendices as you would regular chapters, sections and subsections, and they would be automatically discounted as appendices.
+
+\section{Appendix I} \label{app1}
+%\subsection{Appendix 1.1 Scenario 1}
+%\subsection{Appendix 1.2 Scenario 2}
+\begin{frame}
+{\Large Appendix I: Title}
+    \begin{remark}
+    This is what an appendix would look like. It utilises the same structure as the rest of the presentation \textit{(section, subsection, subsubsection, etc)}.
+    \end{remark}
+    \begin{exampleblock}{Example}
+    \textcolor{mygrey}{\lipsum[2][1-20]}
+    \end{exampleblock}
+\end{frame}
+
+\section{Appendix II} \label{app2}
+\begin{frame}
+{\Large Appendix II: Title} 
+    \begin{block}{Relevant Title}
+    \textcolor{mygrey}{\lipsum[2][1]}
+    \end{block}
+    \begin{exampleblock}{Example of Appendix II}
+    \textcolor{mygrey}{\lipsum[4][1-20]}
+    \end{exampleblock}
+\end{frame}

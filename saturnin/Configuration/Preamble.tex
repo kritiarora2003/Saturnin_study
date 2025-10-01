@@ -1,0 +1,234 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% DISCCLAIMER
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% THIS TEMPLATE IS FRAGILE:
+% It is recommended that you familiarise yourself with a rough idea of the presentation's 
+% framework before adding custom elements.
+
+% THIS TEMPLATE DOES NOT SUPPORT THE USE OF FRAME SUBTITLES.
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% THEME & COLOR
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+\usetheme{Warsaw}          % Base theme (changes not recommended)
+\usecolortheme{crane}      % Color theme (yellow-based)
+% Alternative: default, beaver, dolphin, dove, lily, orchid, rose, seahorse, wolverine, whale.
+\usefonttheme{default}          
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{theorems}[numbered]
+%\setbeamertemplate{navigation symbols}{} % Uncomment to disable the bottom right navigation buttons
+\setbeamercovered{transparent} % Upcoming frame elements greyed out instead of hidden
+
+% Block Colours
+\setbeamercolor{block body example}{bg=green!12}
+
+% Header/Footer customisation handled below
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% PACKAGES
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+\usepackage[utf8]{inputenc} % Text encoding
+\usepackage[T1]{fontenc}    % Font encoding
+\usepackage{lmodern}        % Modern font family
+\usepackage[english]{babel} % Language
+\usepackage{amsmath}        % Core AMS math features
+\usepackage{mathtools}      % Enhancements to amsmath
+\usepackage{amsfonts}       % Math fonts
+\usepackage{amssymb}        % Extended math symbols
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{3d} % optional, for 3D effect
+
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    showstringspaces=false
+}
+
+\usepackage{xcolor}         % Colors
+\usepackage{tikz}           % Graphs, diagrams
+\usetikzlibrary{external}   % External library to reduce compile time
+\tikzexternalize[prefix=Images/Figures/]
+
+\usepackage{hyperref}       % Hyperlinks
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+%\usepackage{appendixnumberbeamer} % Resets the page count after \appendix
+\usepackage[backend=biber,style=alphabetic]{biblatex} % Bibliography
+% (See https://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf)
+\addbibresource{ref.bib}
+
+\usepackage[toc,page]{appendix} % Appendix handling
+
+\renewcommand*{\nameyeardelim}{\addcomma\addspace}
+
+\usepackage{lipsum}         % Dummy text
+\usepackage{csquotes}       % Smart quotes
+%-----------------------------------------------------------------------------------------
+% OPTIONAL PACKAGES (UNCOMMENT TO ENABLE)
+%-----------------------------------------------------------------------------------------
+% \usepackage{siunitx}      % Typeset units
+% \usepackage{verbatim}     % Display large amounts of code
+% \usepackage{chemformula}  % Chemical notations
+% \usepackage{caption}      % Custom captions
+% \usepackage{pgfplots}     % 2D/3D plots
+% \usepackage{tikz-cd}      % Commutative diagrams
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% CUSTOM BLOCK ENVIRONMENTS
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% Remark Block
+\makeatletter
+\def\th@remark{%
+    \normalfont
+    \setbeamercolor{block title example}{bg=orange,fg=black}
+    \setbeamercolor{block body example}{bg=orange!20,fg=black}
+    \def\inserttheoremblockenv{exampleblock}
+}
+\makeatother
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+% Corollary Block
+\makeatletter
+\def\th@corollary{%
+    \textit
+    \setbeamercolor{block title example}{bg=blue,fg=black}
+    \setbeamercolor{block body example}{bg=blue!20,fg=black}
+    \def\inserttheoremblockenv{exampleblock}
+}
+\makeatother
+
+% Proofs Block for Multipage Proof Enivronment
+\makeatletter
+\newenvironment<>{proofs}[1][\proofname]{%
+    \par
+    \def\insertproofname{#1\@addpunct{.}}
+    \usebeamertemplate{proof begin}#2}%
+  {\usebeamertemplate{proof end}}
+\makeatother
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% HEADER & FOOTER
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+\setbeamertemplate{headline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,left,leftskip=1em]{section in head/foot}%
+    \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,center]{date in head/foot}%
+    % \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% Custom footer
+\makeatletter
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.34\paperwidth,ht=2.25ex,dp=1ex,center]{subsection in head/foot}%
+    \usebeamerfont{section in head/foot}\hspace*{1ex}\insertsectionhead\hspace*{1ex}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,right, rightskip=1em]{section in head/foot}%
+    \usebeamerfont{section in head/foot}\insertsubsectionhead\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatother
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% FRAME TITLES & TOC
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% Frame title template (handles subtitles)
+\makeatletter
+\setbeamertemplate{frametitle}{
+    \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+    \@tempdima=\textwidth%
+    \advance\@tempdima by\beamer@leftmargin%
+    \advance\@tempdima by\beamer@rightmargin%
+    \begin{beamercolorbox}[sep=0.3cm,center,wd=\the\@tempdima]{frametitle}
+        \usebeamerfont{frametitle}%
+        \vbox{}\vskip-1ex%
+        \if@tempswa\else\csname beamer@ftecenter\endcsname\fi%
+        \strut\insertframetitle\strut\par%
+        {%
+            \ifx\insertframesubtitle\@empty%
+            \else%
+            {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+            \fi
+        }%
+        \vskip-1ex%
+        \if@tempswa\else\vskip-.3cm\fi%
+    \end{beamercolorbox}%
+}
+\makeatother
+
+% Self-updating TOC for sections
+\AtBeginSection[]
+{
+	\begin{frame}
+	\frametitle{Table of Contents}
+	\tableofcontents[currentsection]
+	\end{frame}
+}
+
+% Subsection frames automatically titled
+\makeatletter
+\newcommand<>{\insertsubsectiontitle}{\frametitle{\insertsubsection}}
+\let\oldbeamer@checkframetitle\beamer@checkframetitle%
+\renewcommand<>{\subsection}{%
+  \gdef\beamer@checkframetitle{%
+    \insertsubsectiontitle%
+    \global\let\beamer@checkframetitle\oldbeamer@checkframetitle%
+  }%
+  \alt#1{\@ifnextchar[\beamer@subsection\beamer@@subsection}
+    {\beamer@secgobble}}
+\makeatother
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% TITLE PAGE
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+% Custom title page template
+\makeatletter
+\defbeamertemplate*{title page}{mytitlepage}[1][]{
+  \vbox{}\vfill
+  \begingroup
+    \centering
+    \parbox{.9\paperwidth}{
+      \begin{beamercolorbox}[wd=\linewidth,sep=8pt,center,#1]{title}%
+        \usebeamerfont{title}\inserttitle\par%
+        \ifx\insertsubtitle\@empty%
+        \else%
+          \vskip0.5em%
+          {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+        \fi%
+      \end{beamercolorbox}%
+    }
+    \vskip1em
+    % Author + Institute centralized
+    \begin{beamercolorbox}[wd=\linewidth,sep=6pt,center,#1]{author}%
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=\linewidth,sep=4pt,center,#1]{institute}%
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \endgroup
+  \vfill
+}
+\setbeamertemplate{title page}[mytitlepage][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow] \makeatother
