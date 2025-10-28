@@ -1,0 +1,1 @@
+XOR differences (pt1 XOR pt2) per state

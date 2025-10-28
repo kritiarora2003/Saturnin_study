@@ -1,0 +1,43 @@
+Encrypt - Round -1 [Initial]:
+0000 0000 0000 0000 
+0000 0000 0000 0000 
+0001 0000 0000 0000 
+0000 0000 0000 8000 
+
+Encrypt - Round -1 [Key xor]:
+0100 0302 0504 0706 
+0908 0b0a 0d0c 0f0e 
+1111 1312 1514 1716 
+1918 1b1a 1d1c 9f1e 
+
+Encrypt - Round  0 [Sbox Even]:
+0100 0504 0202 0302 
+0202 0908 0b0a 0d0c 
+1110 1515 0203 1312 
+0202 9918 9b1a 1d1c 
+
+Encrypt - Round  0 [MDS Even]:
+1312 8909 9b1b 0000 
+1919 1e1f 1f1e 8504 
+0303 9918 8b0b 8000 
+8908 1e1f 8f0f 9514 
+
+Encrypt - Round  0 [Sbox Odd]:
+8909 8809 9b1b 0100 
+1a1a 9e1f 9918 0706 
+8908 9818 1b1b 1110 
+1a1b 0e0f 9918 8707 
+
+Encrypt - Round  0 [MDS Odd]:
+369a 5960 95cc 0a5d 
+db2c 104a 5c9a be24 
+86b6 d9b6 85fc 9a06 
+3b73 4094 ecfb 1eb6 
+
+Encrypt - Round  0 [Key xor]:
+0163 4978 b5e4 3a65 
+9b64 4012 3cf2 ce5c 
+6fe7 492e 2554 2abe 
+fbbb 904c 0c13 ee4e 
+
+Ciphertext (32 bytes): 63017849e4b5653a649b1240f23c5ccee76f2e495425be2abbfb4c90130c4eee

@@ -6,22 +6,22 @@
 void saturnin_block_encrypt(int R, int D, const uint8_t *key, uint8_t *buf);
 void saturnin_block_decrypt(int R, int D, const uint8_t *key, uint8_t *buf);
 
-#define SATURNIN_SHORT_R 10
+#define SATURNIN_SHORT_R 1
 #define SATURNIN_SHORT_D 6
 
 unsigned long long PLAINTEXT_LEN = 15;
 uint8_t PLAINTEXT[15] = {
-    0x00,0x01,0x02,0x03,
-    0x04,0x05,0x06,0x07,
-    0x08,0x09,0x0a,0x0b,
-    0x0c,0x0d,0x0e
+    0x03,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00,
+    0x00,0x00,0x00
 };
 
 uint8_t NONCE[16] = {
-    0x00,0x01,0x02,0x03,
-    0x04,0x05,0x06,0x07,
-    0x08,0x09,0x0a,0x0b,
-    0x0c,0x0d,0x0e,0x0f
+    0x00,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00,
+    0x00,0x00,0x00,0x00
 };
 
 uint8_t KEY[32] = {
@@ -112,21 +112,21 @@ int main() {
     for(int i=0;i<clen;i++) printf("%02x", ciphertext[i]);
     printf("\n");
 
-    // Decrypt to verify
-    uint8_t decrypted[16];
-    unsigned long long decrypted_len;
-    if(crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, 0, NONCE, KEY) != 0){
-        printf("Decryption failed\n");
-        return 1;
-    }
+    // // Decrypt to verify
+    // uint8_t decrypted[16];
+    // unsigned long long decrypted_len;
+    // if(crypto_aead_decrypt(decrypted, &decrypted_len, NULL, ciphertext, clen, NULL, 0, NONCE, KEY) != 0){
+    //     printf("Decryption failed\n");
+    //     return 1;
+    // }
 
-    printf("Decrypted plaintext: ");
-    for(int i=0;i<decrypted_len;i++) printf("%02x", decrypted[i]);
-    printf("\n");
+    // printf("Decrypted plaintext: ");
+    // for(int i=0;i<decrypted_len;i++) printf("%02x", decrypted[i]);
+    // printf("\n");
 
-    printf("Ciphertext (%llu bytes): ", clen);
-    for(int i=0;i<clen;i++) printf("%02x", ciphertext[i]);
-    printf("\n");
+    // printf("Ciphertext (%llu bytes): ", clen);
+    // for(int i=0;i<clen;i++) printf("%02x", ciphertext[i]);
+    // printf("\n");
 
     return 0;
 }

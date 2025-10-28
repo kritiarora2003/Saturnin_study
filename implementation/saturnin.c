@@ -440,11 +440,13 @@ saturnin_block_encrypt(int R, int D, const uint8_t *key, uint8_t *buf)
 	 * fill the round constant arrays with appropriate round constants
 	 */
 	make_round_constants(R, D, RC0, RC1);
-
+	
+	print_state(xb, "Encrypt", -1, "Initial");
 	/*
 	 * XOR key into state.
 	 */
 	XOR_key(xk, xb);
+	print_state(xb, "Encrypt", -1, "Key xor");
 
 	/*
 	 * Run all rounds (two rounds per super-round).
@@ -456,13 +458,15 @@ saturnin_block_encrypt(int R, int D, const uint8_t *key, uint8_t *buf)
 		 * Even round.
 		 */
 		S_box(xb);
+		print_state(xb, "Encrypt", i, "Sbox Even");
 		MDS(xb);
-		print_state(xb, "Encrypt", i, "Even");
+		print_state(xb, "Encrypt", i, "MDS Even");
 
 		/*
 		 * Odd round.
 		 */
 		S_box(xb);
+		print_state(xb, "Encrypt", i, "Sbox Odd");
 		if ((i & 1) == 0) {
 			/*
 			 * Round r = 1 mod 4.
@@ -470,10 +474,11 @@ saturnin_block_encrypt(int R, int D, const uint8_t *key, uint8_t *buf)
 			SR_slice(xb);
 			MDS(xb);
 			SR_slice_inv(xb);
+			print_state(xb, "Encrypt", i, "MDS Odd");
 			xb[0] ^= RC0[i];
 			xb[8] ^= RC1[i];
 			XOR_key_rotated(xk, xb);
-			print_state(xb, "Encrypt", i, "Even");
+			print_state(xb, "Encrypt", i, "Key xor");
 		} else {
 			/*
 			 * Round r = 3 mod 4.
@@ -484,7 +489,7 @@ saturnin_block_encrypt(int R, int D, const uint8_t *key, uint8_t *buf)
 			xb[0] ^= RC0[i];
 			xb[8] ^= RC1[i];
 			XOR_key(xk, xb);
-			print_state(xb, "Encrypt", i, "Even");
+			print_state(xb, "Encrypt", i, "Odd (Sheet)");
 		}
 	}
 

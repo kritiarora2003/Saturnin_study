@@ -1,6 +1,10 @@
 # saturnin_full.py
 from typing import List
 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import animation
+
 # ------------------- Utilities -------------------
 
 def to_words(b: bytes) -> List[int]:
@@ -171,80 +175,69 @@ def saturnin_block_encrypt(R:int, D:int, key_bytes:bytes, buf:bytes) -> bytes:
     return from_words(xb)
 
 # ------------------- Block Decrypt -------------------
-
 def saturnin_block_decrypt(R:int, D:int, key_bytes:bytes, buf:bytes) -> bytes:
     RC0, RC1 = make_round_constants(R,D)
     xk = to_words(key_bytes)
     xb = to_words(buf[:32])
-    
+
+    # Initial XOR with key (mirrors encrypt)
+    XOR_key(xk, xb)
+
+    # Reverse rounds
     for i in reversed(range(R)):
         # Odd round
         if (i & 1) == 0:
+            # Odd slice round
             XOR_key_rotated(xk, xb)
-            xb[0] ^= RC0[i]; xb[8] ^= RC1[i]
+            xb[0] ^= RC0[i]
+            xb[8] ^= RC1[i]
+            # Reverse slice permutation + diffusion
             SR_slice(xb)
             MDS_inv(xb)
             SR_slice_inv(xb)
-            print_state(xb, "Decrypt", i, "Odd Slice")
+            S_box_inv(xb)
         else:
+            # Odd sheet round
             XOR_key(xk, xb)
-            xb[0] ^= RC0[i]; xb[8] ^= RC1[i]
+            xb[0] ^= RC0[i]
+            xb[8] ^= RC1[i]
             SR_sheet(xb)
             MDS_inv(xb)
             SR_sheet_inv(xb)
-            print_state(xb, "Decrypt", i, "Odd Sheet")
-        
+            S_box_inv(xb)
+
         # Even round
         MDS_inv(xb)
         S_box_inv(xb)
-        print_state(xb, "Decrypt", i, "Even")
-    
-    XOR_key(xk, xb)
+
     return from_words(xb)
 
-import matplotlib.pyplot as plt
-import numpy as np
+# ------------------- Test Vectors -------------------
 
-def plot_state_3d(state, title="Saturnin State 4x4x4"):
+# ------------------- Unpadding -------------------
+# ------------------- Unpadding -------------------
+def unpad(pt_padded: bytes) -> bytes:
     """
-    Visualize 16-word Saturnin state as a 4x4x4 cube.
-    X,Y = position in slice, Z = slice index.
-    Color intensity = word value normalized.
+    Remove padding of the form: plaintext + 0x80 + zeros.
+    Works even if extra bytes from encryption may shift positions.
     """
-    fig = plt.figure(figsize=(8, 6))
-    ax = fig.add_subplot(111, projection='3d')
-    ax.set_title(title, fontsize=14)
+    # Remove trailing zeros
+    pt = pt_padded.rstrip(b'\x00')
+    # Remove trailing 0x80 if present
+    if pt.endswith(b'\x80'):
+        pt = pt[:-1]
+    return pt
 
-    # normalize word values to [0,1] for color
-    vals = np.array(state).reshape((4,4,4))
-    colors = vals / np.max(vals)
-
-    for z in range(4):
-        for y in range(4):
-            for x in range(4):
-                val = colors[z,y,x]
-                ax.bar3d(x, y, z, 1, 1, 1, color=plt.cm.viridis(val), alpha=0.8)
-
-    ax.set_xlabel("X")
-    ax.set_ylabel("Y")
-    ax.set_zlabel("Slice Z")
-    ax.set_xlim(0,4)
-    ax.set_ylim(0,4)
-    ax.set_zlim(0,4)
-    plt.show()
-
-
-# ------------------- Example Test -------------------
-
+# ------------------- Main -------------------
 if __name__ == "__main__":
     R = 10
     D = 6
+
     KEY = bytes.fromhex(
         "000102030405060708090A0B0C0D0E0F"
         "101112131415161718191A1B1C1D1E1F"
     )
     NONCE = bytes.fromhex("000102030405060708090A0B0C0D0E0F")
-    
     # Test Vector 1
     PT1 = b""
     buf1 = NONCE + PT1 + b'\x80' + b'\x00'*(15-len(PT1))
@@ -254,13 +247,16 @@ if __name__ == "__main__":
     print("Ciphertext (CT):", CT1.hex())
     print("Expected CT   : ef142fc810ce92839726d600fccfd7119050da25a3ec5586c7c43ca668e3c8c0\n")
 
-    # Test Vector 2
-    PT2 = bytes.fromhex("00")
-    buf2 = NONCE + PT2 + b'\x80' + b'\x00'*(15-len(PT2))
-    CT2 = saturnin_block_encrypt(R,D,KEY,buf2)
-    print("--- Test Vector 2 ---")
-    print("Plaintext (PT):", PT2.hex())
-    print("Ciphertext (CT):", CT2.hex())
-    print("Expected CT   : 1eff913c607db032c8f1726d51401ca13c54365dbc4074ef8148e0c2160ad656\n")
+    PT1_dec_block = saturnin_block_decrypt(R,D,KEY,CT1)
 
-    # plot_state_3d(xb, title="After S_box (Round 0)")
+    # Remove nonce and unpad plaintext
+    PT1_dec_unpad = unpad(PT1_dec_block[16:])
+    print("Decrypted plaintext :", PT1_dec_unpad.hex())
+    # # Test Vector 2
+    # PT2 = bytes.fromhex("00")
+    # buf2 = NONCE + PT2 + b'\x80' + b'\x00'*(15-len(PT2))
+    # CT2 = saturnin_block_encrypt(R,D,KEY,buf2)
+    # print("--- Test Vector 2 ---")
+    # print("Plaintext (PT):", PT2.hex())
+    # print("Ciphertext (CT):", CT2.hex())
+    # print("Expected CT   : 1eff913c607db032c8f1726d51401ca13c54365dbc4074ef8148e0c2160ad656\n")
