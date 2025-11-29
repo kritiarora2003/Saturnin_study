@@ -91,4 +91,9 @@ zerosum/.ipynb_checkpoints/
 *.bak
 *.old
 *.backup
-toy/.ipynb_checkpoints/
+
+# =========================
+# 📓 Jupyter Notebook Checkpoints
+# =========================
+**/.ipynb_checkpoints/
+*.ipynb_checkpoints/
