@@ -9,4 +9,5 @@
 \beamer@sectionintoc {3}{Security}{15}{0}{3}
 \beamer@sectionintoc {4}{Implementation}{17}{0}{4}
 \beamer@sectionintoc {5}{Impossible Differential Trail on Saturnin}{22}{0}{5}
-\beamer@sectionintoc {6}{Summing Up}{26}{0}{6}
+\beamer@sectionintoc {6}{Boomerang cryptanalysis on Saturnin}{26}{0}{6}
+\beamer@sectionintoc {7}{Summing Up}{38}{0}{7}

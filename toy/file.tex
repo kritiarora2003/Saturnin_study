@@ -1,0 +1,161 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{\textbf{Lightweight Cryptography - Toy Cipher Exploration}}
+\author{Kriti Arora}
+\date{November 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Overview of the Toy Cipher}
+
+The original Saturnin cipher operates on a 16×16 state, i.e., a matrix of 16 rows and 16 columns of 4-bit
+cells, totaling 256 bits. In contrast, our toy variant significantly reduces the state size for analysis and
+experimentation.
+
+\textbf{Toy Cipher State.} The toy design uses an 8×4 state, consisting of:
+
+\[
+8\ \text{registers} \times 4\ \text{bits each} = 32\ \text{bits}.
+\]
+
+These registers are denoted
+\[
+(x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7),
+\]
+where each $x_i$ is a 4-bit value.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{fig_saturnin_state.jpg}
+    \caption{Full Saturnin state (16×16).}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{fig_toy_cipher_state.jpg}
+    \caption{Toy cipher state (8 registers of 4 bits each).}
+\end{figure}
+
+\section{Nonlinear Layer: Bitsliced S-box Application}
+
+The cipher state consists of eight 4-bit registers:
+\[
+S = (x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7),\quad x_i \in \{0,\ldots,15\}.
+\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig_sbox_structure.jpg}
+    \caption{Bitsliced S-box structure.}
+\end{figure}
+
+\subsection{Bitslice Structure}
+
+The eight registers are divided into two groups:
+\[
+G_0 = (x_0, x_1, x_2, x_3), \quad
+G_1 = (x_4, x_5, x_6, x_7).
+\]
+
+Each group contains four 4-bit words. For bit position $j \in \{0,1,2,3\}$, we define the slice
+\[
+(a_j, b_j, c_j, d_j) = ((u_0)_j, (u_1)_j, (u_2)_j, (u_3)_j).
+\]
+
+Thus, the design applies \textbf{8 S-boxes in parallel} — four from $G_0$ and four from $G_1$.
+
+\subsection{Group-specific S-box Variants}
+
+\begin{itemize}
+    \item $S_0$ is applied to all slices of $G_0$.
+    \item $S_1$ is applied to all slices of $G_1$.
+\end{itemize}
+
+\section{Shift Operations: SR\_slice and SR\_sheet}
+
+\subsection{SR\_slice}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig_sr_slice_before.jpg}
+    \caption{SR\_slice: State before applying the slice shift.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig_sr_slice_after.jpg}
+    \caption{SR\_slice: Top row shifted left; bottom row unchanged.}
+\end{figure}
+
+\subsection{SR\_sheet}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig_sr_sheet_before.jpg}
+    \caption{SR\_sheet: Sheet before shifting.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig_sr_sheet_after.jpg}
+    \caption{SR\_sheet: Top row shifted; bottom row unchanged.}
+\end{figure}
+
+\section{MDS Layer}
+
+\subsection{Original Saturnin MDS}
+
+Each group $(t_0, t_1, t_2, t_3)$ undergoes:
+
+\[
+(t_0, t_1, t_2, t_3) \leftarrow (t_1, t_2, t_3, t_0 \oplus t_1).
+\]
+
+\subsection{Toy Cipher MDS}
+
+Because the reduced state has 8 registers, each group contains two registers:
+
+\[
+(t_0, t_1) \leftarrow (t_1, t_0 \oplus t_1).
+\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{fig_toy_mds.jpg}
+    \caption{Toy cipher MDS.}
+\end{figure}
+
+\section{Empirical Properties of the MDS Layer}
+
+\subsection{Correctness of the MDS and Its Inverse}
+
+For input
+\[
+(0,0,0,1,0,0,0,0),
+\]
+MDS produced:
+\[
+(0,1,1,0,0,1,0,0),
+\]
+and inverse MDS recovered the original input.
+
+\subsection{Diffusion Measurement}
+
+Measured average diffusion:
+
+\[
+\textbf{3.38 output nibbles changed per input bit flip}.
+\]
+
+This indicates moderate diffusion, spreading each bit flip across multiple registers.
+
+\end{document}

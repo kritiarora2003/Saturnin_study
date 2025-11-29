@@ -1,0 +1,93 @@
+# =========================
+# 🧠 General OS / Editor files
+# =========================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.log
+*.bak
+*.lock
+*.orig
+
+# =========================
+# 🧰 Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+venv/
+env/
+.virtualenv/
+*.spec
+
+# =========================
+# 📓 Jupyter
+# =========================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# =========================
+# 🧾 LaTeX
+# =========================
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.log
+*.lot
+*.lof
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.bcf
+*.run.xml
+
+# =========================
+# ⚙️ IDE / Config
+# =========================
+.vscode/
+.idea/
+*.code-workspace
+
+# =========================
+# 🧩 Project-specific ignores
+# =========================
+# Ignore embedded git repo inside termpaper
+termpaper/PhinisheD/
+
+# Ignore compiled and generated files
+toy/__pycache__/
+toy/*.pyc
+toy/*.pyo
+toy/*.pyd
+toy/*.spec
+toy/__pycache__/
+toy/.ipynb_checkpoints/
+boomerang_saturnin/__pycache__/
+boomerang_saturnin/.ipynb_checkpoints/
+zerosum/.ipynb_checkpoints/
+
+# Ignore large binaries and zips
+*.zip
+*.tar
+*.gz
+*.7z
+
+# =========================
+# 📦 Misc / backup
+# =========================
+*.bak
+*.old
+*.backup

@@ -1,0 +1,161 @@
+
+%------------------------------------------------------------
+\section{Boomerang cryptanalysis on Saturnin}
+
+\begin{frame}{Boomerang Attack — Overview}
+    \small
+    
+    \textbf{Goal:} Combine two short differential characteristics to build a longer, high-probability distinguisher.
+    
+    \vspace{0.6em}
+
+    \includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{Images/Figures/boomerang.png}
+    \includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{Images/Figures/sandwich.png}
+    
+    \end{frame}
+
+    \begin{frame}{BCT of Even and Odd S-boxes}
+        \centering
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{Images/Figures/evenbct.png}
+            \vspace{0.3em}
+            
+            \textbf{Even S-box BCT}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth,height=0.7\textheight,keepaspectratio]{Images/Figures/oddbct.png}
+            \vspace{0.3em}
+            
+            \textbf{Odd S-box BCT}
+        \end{minipage}
+        \end{frame}
+        
+\begin{frame}{DDT of Saturnin S-box}
+    
+    \includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{Images/Figures/ddt.png}
+\end{frame}
+    
+
+\begin{frame}{Top Performing Pairs}
+\small
+\begin{center}
+\textbf{Top 5 Boomerang Pairs}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$\alpha$ (Input $\Delta$) & $\delta$ (Output $\nabla$)  \\
+\hline
+E  & A  \\
+E & 9  \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+\begin{itemize}
+    \item Multiple pairs reach the same high probability of 10/16.
+\end{itemize}
+\end{frame}
+%------------------------------------------------------------
+
+\begin{frame}{Detailed View: Best Pair}
+\small
+\textbf{Boomerang Pair}
+
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+$P_1$ & $P_2$ & $C_1$ & $C_2$ & $C_3$ & $C_4$ & $P_3$ & $P_4$ & $P_3 \oplus P_4$ \\
+\hline
+0 & 2 & 4 & 6 & 5 & 7 & 5 & 7 & 2 \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}{Trail using just the Sbox}
+    \centering
+    \includegraphics[width=1\textwidth,height=0.7\textheight,keepaspectratio]{Images/Figures/TRAIL.png}
+\end{frame}
+
+\begin{frame}{Incompatibility: DDT Pair Analysis}
+    \small
+    \textbf{Parameters:} $\Delta = 0x1$, $\beta = 0x3$\\[6pt]
+    
+    \begin{tabular}{llll}
+    \textbf{x} & \textbf{x'} & \textbf{y} & \textbf{y'} \\ \hline
+    0x6 & 0x7 & 0x4 & 0x7 \\
+    0x7 & 0x6 & 0x7 & 0x4 \\
+    \end{tabular}\\[8pt]
+    
+    \textit{Total DDT pairs: 2}\\[10pt]
+    
+    \end{frame}
+     
+    \begin{frame}{BCT Pair Analysis and Overlap Check}
+        \small
+        \textbf{Parameters:} $\Delta = 0x1$, $\nabla = 0x1$\\[6pt]
+        
+        \begin{tabular}{llll}
+        \textbf{x} & \textbf{x'} & \textbf{y} & \textbf{y'} \\ \hline
+        0x0 & 0x1 & 0x6 & 0x9 \\
+        0x1 & 0x0 & 0x9 & 0x6  \\
+        0x8 & 0x9 & 0xB & 0xD  \\
+        0x9 & 0x8 & 0xD & 0xB  \\
+        0xE & 0xF & 0xC & 0xA \\
+        0xF & 0xE & 0xA & 0xC  \\
+        \end{tabular}\\[6pt]
+        
+        \textit{Total BCT pairs: 6}\\[10pt]
+        
+        \textbf{Overlap Check:}\\[3pt]
+        DDT $x$ values: [0x6, 0x7]\\
+        BCT $x$ values: [0x0, 0x1, 0x8, 0x9, 0xE, 0xF]\\
+        Overlap: None\\[8pt]
+        
+        \textbf{Inference:}\\
+        The DDT and BCT input pairs are disjoint, showing no overlap in input differences.
+        \end{frame}
+
+        \begin{frame}{Compatible Boomerang Trail Found}
+            \textbf{Key Parameters:}
+            \begin{itemize}
+                \item Active nibble (top): 4
+                \item Active nibble (bottom): 4
+                \item $p_1$ nibble: \texttt{0x0}
+                \item $\Delta_{in}$: \texttt{0x1}
+                \item $\Delta_{bottom}$: \texttt{0x2}
+                \item $\Delta_{out}$: \texttt{0x5}
+                \item $BCT[0x1][0x5] = 5$
+            \end{itemize}
+            
+            \end{frame}
+
+            \begin{frame}{Trail diagram}
+                \centering
+                \includegraphics[width=1\textwidth,height=1\textheight,keepaspectratio]{Images/Figures/2round.png}
+            \end{frame}
+
+            \begin{frame}{Probability $p$}
+                \textbf{Differential Probabilities:}
+                \begin{itemize}
+                    \item $P(\Delta_{in} = 0x1 \rightarrow \Delta_{out} = 0x7) = \frac{1}{8}$
+                    \item $P(\nabla_{in} = 0x2 \rightarrow \nabla_{out} = 0x7) = \frac{1}{8}$
+                \end{itemize}
+            
+                \vspace{8pt}
+                \textbf{Boomerang Probability:}
+                \[
+                    P_B = P^2 \times Q^2 = \left(\frac{1}{8}\right)^2 \times \left(\frac{1}{8}\right)^2 = \frac{1}{4096}
+                \]
+            
+            \end{frame}
+            
