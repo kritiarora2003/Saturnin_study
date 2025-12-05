@@ -79,11 +79,14 @@ boomerang_saturnin/__pycache__/
 boomerang_saturnin/.ipynb_checkpoints/
 zerosum/.ipynb_checkpoints/
 
-# Ignore large binaries and zips
+# =========================
+# 🗜️ Archive Files
+# =========================
 *.zip
 *.tar
 *.gz
 *.7z
+*.rar
 
 # =========================
 # 📦 Misc / backup
