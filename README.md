@@ -13,8 +13,8 @@ Whether you're here to check out the code, run some attacks, or just learn more 
 - **`toy/`**: A simplified "toy" version of the cipher. Perfect for understanding the core concepts without getting lost in the full complexity. Check out the Jupyter notebook!
 
 ### 🕵️‍♀️ Cryptanalysis
-- **`diff_lin/`**: Dive into **Differential-Linear Cryptanalysis** with our scripts and 3-round distinguishers.
-- **`boomerang_saturnin/`**: See **Boomerang Attacks** in action against Saturnin.
+- **`diff_lin/`**: Dive into **Differential-Linear Cryptanalysis** with our scripts.
+- **`boomerang_saturnin/`**: See **Boomerang Attacks** in action against Saturnin (not the toy; the full version) also see Murphy's incompatibilty in action.
 - **`linear_cryptanalysis/`**: Resources for linear cryptanalysis, including the Linear Approximation Table (LAT).
 - **`zerosum/`**: Explore **Zero-Sum Distinguishers** and algebraic degree analysis.
 - **`bct/`**: Tools for generating the Boomerang Connectivity Table (BCT), Difference Distribution Table (DDT), and Boomerang Difference Table (BDT).
