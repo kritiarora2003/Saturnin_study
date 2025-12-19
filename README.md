@@ -26,7 +26,6 @@ Whether you're here to check out the code, run some attacks, or just learn more 
 - **`mzn/`**: **MiniZinc** models for constraint programming-based analysis.
 
 ### 📚 Documentation & Presentation
-- **`termpaper/`**: The "PhinisheD" product! LaTeX source files for the thesis/term paper, neatly organized by chapters.
 - **`saturnin_ppt/`**: Slides and resources for the project presentation.
 
 ### 🧪 Miscellaneous
